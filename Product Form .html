@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form </title>
+</head>
+<body>
+
+    <div>
+<label> Name</label>
+    <input type="text" name="" id="title">
+    <label>Price</label>
+    <input type="number" name="" id="price">
+    <label> category</label>
+    <input type="text" name="" id="category">
+    <label> Imageadd</label>
+    <input type="text" name="" id="image">
+    <select id="gender">
+        <option value="male">Male</option>
+        <option value="female">FeMale</option>
+    </select>
+    <button onclick="add()">Add product</button>
+    </div>
+</body>
+
+<script>
+     function add(){
+        var obj= {"title": document.getElementById("title").value,
+    "gender": document.getElementById("gender").value,
+    "price": document.getElementById("price").value,
+    "category": document.getElementById("category").value,
+    "image": document.getElementById("image").value
+        }
+        console.log(obj)
+url=`http://localhost:3000/product`
+
+fetch(url,{
+    method:"POST",
+    body:JSON.stringify(obj),
+    headers:{
+        'Content-Type':"application/json"
+    }
+})
+.then((x)=>x.json())
+.then((x)=>console.log(x))
+
+
+
+     }
+</script>
+</html>

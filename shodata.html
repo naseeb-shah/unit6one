@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="show">
+        <img src="" alt="" style="height:200px;width:200px">
+        <h4></h4>
+        <p></p>
+    </div>
+
+    <button
+    onclick="xy(-1)" id="pre">Prepage</button>
+    <button onclick="xy(+1)" id="po">Nextpage</button>
+</body>
+<script>
+    var item
+    fetch('http://localhost:3000/product')
+    .then((x)=>x.json())
+    .then((x)=>tp(x.length))
+    
+    function tp(c){
+        if(c%5>0)
+        page=c/5+1
+        else
+        page=c/5
+        localStorage.setItem("p",JSON.stringify(Math.floor(page)))
+    }
+
+p=1
+fetch(`http://localhost:3000/product?_page=${p}&_limit=5`)
+.then((x)=>x.json())
+.then((x)=>showit(x))
+
+function showit(x){
+    var all=document.querySelectorAll(".sai")
+    all.forEach(e=>e.remove())
+    var st=document.getElementById("show")
+    x.forEach(e => {
+  div=document.createElement('div')
+  div.className="sai"
+  div.innerHTML=`<img   style="height:200px;width:200px" src="${e.image}" alt="">
+        <h4>${e.title}</h4>
+        <p> Price:${e.price}</p>`       
+   
+   st.append(div)
+    });
+}
+ function xy(j){
+    p=p+j
+    console.log(p)
+    fetch(`http://localhost:3000/product?_page=${p}&_limit=5`)
+.then((x)=>x.json())
+.then((x)=>showit(x))
+ }
+
+ 
+if(p==1){
+    document.getElementById("pre").disabled = true;
+}else if(p>1){
+    document.getElementById("pre").disabled = false;
+}
+
+
+</script>
+</html>
